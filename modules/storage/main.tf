@@ -1,3 +1,13 @@
+provider "aws" {
+  alias  = "bucket_region"
+  region = var.region
+}
+
+resource "aws_s3_bucket" "fio_doc" {
+  provider = aws.bucket_region
+  bucket   = var.bucket_name
+}
+
 resource "aws_s3_bucket_public_access_block" "fio_doc" {
   bucket = var.bucket_name
 

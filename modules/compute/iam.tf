@@ -1,6 +1,6 @@
 # EC2 Role
 resource "aws_iam_role" "ec2_role" {
-  name = "fio-app-ec2-ssm-role"
+  name = "${var.environment}-fio-app-ec2-ssm-role"
   
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -18,7 +18,7 @@ resource "aws_iam_role" "ec2_role" {
 
 # EC2 App Policy
 resource "aws_iam_policy" "ec2_app_policy" {
-  name        = "ec2-app-policy"
+  name = "${var.environment}-ec2-app-policy"
   description = "Policy for EC2 application permissions"  # Add back description
   
   policy = jsonencode({
@@ -73,7 +73,7 @@ resource "aws_iam_role_policy_attachment" "ec2_app_policy" {
 
 # Instance Profile
 resource "aws_iam_instance_profile" "ec2_profile" {
-  name = "fio-app-ec2-profile"
+  name = "${var.environment}-fio-app-ec2-profile"
   role = aws_iam_role.ec2_role.name
 }
 
@@ -81,4 +81,9 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 resource "aws_iam_role_policy_attachment" "ssm_policy" {
   role       = aws_iam_role.ec2_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_full_access" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 }

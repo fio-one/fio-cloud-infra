@@ -45,7 +45,7 @@ resource "aws_security_group" "ec2_sg" {
 
 # EC2 Instance
 resource "aws_instance" "app" {
-  ami           = "ami-0ed99df77a82560e6"
+  ami           = var.ami[var.region]
   instance_type = "t2.large"
   subnet_id     = var.public_subnet_id
   associate_public_ip_address = true

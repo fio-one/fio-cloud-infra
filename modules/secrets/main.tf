@@ -19,7 +19,7 @@ resource "aws_secretsmanager_secret_version" "rds_credentials" {
 
 # Gandi API Secret
 resource "aws_secretsmanager_secret" "gandi_api" {
-  name = "fio_app/gandi/api-key"
+  name = "${var.environment}-${var.region}/fio_app/gandi/api-key"
   recovery_window_in_days = 30
 }
 

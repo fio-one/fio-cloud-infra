@@ -21,3 +21,13 @@ variable "gandi_api_key" {
   type        = string
   sensitive   = true
 }
+
+variable "environment" {
+  description = "Environment name"
+  type        = string
+}
+
+variable "region" {
+  description = "AWS region"
+  type        = string
+}

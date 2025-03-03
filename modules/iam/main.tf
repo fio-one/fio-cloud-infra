@@ -1,9 +1,9 @@
 resource "aws_iam_group" "developers" {
-  name = "FiO.DeveloperOutSourcing"
+  name = "${var.environment}-FiO.DeveloperOutSourcing"
 }
 
 resource "aws_iam_policy" "developer_policy" {
-  name = "developer-policy"
+  name = "${var.environment}-developer-policy"
   
   policy = jsonencode({
     Version = "2012-10-17"
@@ -195,7 +195,7 @@ resource "aws_iam_group_policy_attachment" "developer_policy_attach" {
 }
 
 resource "aws_iam_user" "developer" {
-  name = "fable_roy"
+  name = "${var.environment}-fable-roy"
 }
 
 resource "aws_iam_user_group_membership" "developer" {

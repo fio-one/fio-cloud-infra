@@ -9,3 +9,8 @@ variable "enable_versioning" {
   type        = bool
   default     = true
 }
+
+variable "region" {
+  description = "AWS region"
+  type        = string
+}

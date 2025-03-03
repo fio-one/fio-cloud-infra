@@ -38,3 +38,12 @@ variable "bucket_name" {
   description = "S3 bucket name"
   type        = string
 }
+
+variable "ami" {
+  description = "EC2 AMI ID"
+  type        = map(string)
+  default = {
+    ap-northeast-1 = "ami-0ed99df77a82560e6"  # Tokyo
+    ap-northeast-2 = "ami-0c9c942bd7bf113a2"  # Seoul
+  }
+}

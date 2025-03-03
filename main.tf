@@ -1,3 +1,7 @@
+terraform {
+  backend "s3" {}
+}
+
 # variables.tf
 variable "region" {
   description = "AWS region"
@@ -85,7 +89,7 @@ variable "gandi_api_key" {
 
 # EC2 Secrets Policy
 resource "aws_iam_policy" "ec2_secrets_policy" {
-  name = "ec2-secrets-policy"
+  name = "${var.environment}-ec2-secrets-policy"
   
   policy = jsonencode({
     Version = "2012-10-17"
@@ -113,6 +117,7 @@ resource "aws_iam_role_policy_attachment" "ec2_secrets_policy_attachment" {
 module "iam" {
   source = "./modules/iam"
   region = var.region
+  environment = var.environment
 }
 
 module "networking" {
@@ -147,17 +152,19 @@ module "container" {
 module "storage" {
   source = "./modules/storage"
 
-  bucket_name = "fio-doc"
+  bucket_name = var.bucket_name
   enable_versioning = true
+  region = var.region
 }
 
 module "secrets" {
   source = "./modules/secrets"
-
-  project_name       = "fio"
+  project_name = "fio"
+  environment = var.environment
+  region = var.region
   db_master_username = var.db_master_username
   db_master_password = var.db_master_password
-  gandi_api_key     = var.gandi_api_key
+  gandi_api_key = var.gandi_api_key
 }
 
 module "compute" {
